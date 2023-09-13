@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+	<div class="card mb-3 mb-5" style="width: 1000px;">
+			<div class="card-header">
+				Категория: <a href="{{ news_item.category.get_absolute_url }}">{{ news_item.category.title }}</a>
+			</div>
+			<div class="media" style="display:flex">
+				<div class="media-photo" style="min-width: 350px;">
+					{% if news_item.photo %}
+						<img src="{{ news_item.photo.url }}" class="mr-3" width="350" alt="Photo">
+					{% else %}
+						<h6 class="m-4">Фото нет</h6>
+					{% endif %}
+				</div>
+				<div class="media-body" style="margin-left: 40px;">
+					<h5 class="card-title {% cycle 'text-success' 'text-danger' 'text-primary' %}" style="margin-left: 220px;">{{ news_item.title }}</h5>
+					{% autoescape off %}
+						<p class="card-text ">{{ news_item.content|truncatewords:100|linebreaks }}</p>
+					{% endautoescape %}
+				<div style="display: flex; margin-left: 210px;">
+					<div class="py-2">
+					<a href="{% url 'news_edit' news_item.id %}" class="btn " style="">Изменить запись</a>
+				</div><div class="py-2">
+					<a href="{% url 'news_delete' news_item.id %}" class="btn " style="">Удалить запись</a>
+				</div></div>
+				</div>
+			</div>
+			<div class="card-footer text-muted">
+				<div class="data" style="margin-left: 420px;">
+					{{ news_item.created_at|date:'Y-m-d H:i' }}
+				</div>
+			</div>
+		</div>
+{% endblock %}

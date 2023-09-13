@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+	{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+	{{ mixin_group }}
+	{% for item in news %}
+		<div class="card mb-3 mb-5" style="width: 1000px;">
+			<span class="badge bg-success">{{ forloop.counter }} Пост</span>
+			<div class="card-header">
+				Категория: <a href="{{ item.category.get_absolute_url }}">{{ item.category.title }}</a>
+			</div>
+			<div class="media" style="display:flex">
+				<div class="media-photo" style="min-width: 350px;">
+					{% if item.photo %}
+						<img src="{{ item.photo.url }}" class="mr-3" width="350" alt="Photo">
+					{% else %}
+						<h6 class="m-4">Фото нет</h6>
+					{% endif %}
+				</div>
+				<div class="media-body" style="margin-left: 40px;">
+					<h5 class="card-title {% cycle 'text-success' 'text-danger' 'text-primary' %}" style="margin-left: 220px;">{{ item.title }}</h5>
+					{% autoescape off %}
+						<p class="card-text ">{{ item.content|truncatewords:100|linebreaks }}</p>
+					{% endautoescape %}
+				<div class="py-2">
+					<a href="{{ item.get_absolute_url }}" class="btn " style="margin-left: 210px;">Продолжить чтение</a>
+				</div></div>
+			</div>
+			<div class="card-footer text-muted">
+				<div class="data" style="margin-left: 420px;">
+					{{ item.created_at|date:'Y-m-d H:i' }}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

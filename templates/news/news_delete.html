@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+<div class="title">
+{% block title %}
+    Удаление новости :: {{ block.super }}
+{% endblock %}
+</div>
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Удаление новости</h1>
+        <form action="{% url 'news_delete' object.pk %}" method="post" enctype="multipart/form-data" style="width: 1000px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+             <button type="submit" class="btn btn-danger btn-block">Удалить</button>
+            {{ form.none_field.errors }}
+        </form>
+{% endblock %}
+
+

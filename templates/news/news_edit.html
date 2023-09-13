@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+<div class="title">
+{% block title %}
+    Изменение новости :: {{ block.super }}
+{% endblock %}
+</div>
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Изменение новости</h1>
+        <form action="{% url 'news_edit' object.pk  %}" method="post" enctype="multipart/form-data" style="width: 1000px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+             <button type="submit" class="btn btn-primary btn-block">Изменить</button>
+            {{ form.none_field.errors }}
+        </form>
+{% endblock %}
+
+
